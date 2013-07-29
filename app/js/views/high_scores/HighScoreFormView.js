@@ -10,7 +10,6 @@ define([
     el: '.highScore-form-container',
     render: function () {
       $(this.el).html(highScoreFormTemplate);
-      
     },
     events: {
       'click .submit-score': 'submitScore'
@@ -22,8 +21,8 @@ define([
       console.log("entering from HighScoreForm")
 
       var scoreModel = new ScoreModel();
-      
-      scoreModel.save( { score: $('.score').val() }, {
+
+      scoreModel.save( { playerName: $('.playerName').val(), score: $('.score').val() }, {
         
         success: function () {
           console.log("HighScoreForm success: " + scoreModel.get('score') )

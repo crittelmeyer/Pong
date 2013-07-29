@@ -3,13 +3,13 @@ define([
   'underscore',
   'backbone',
   'views/MainView', 
-  'views/cabin/CabinView'
-], function ($, _, Backbone, MainView, CabinView) {
+  'views/high_scores/HighScoresView'
+], function ($, _, Backbone, MainView, HighScoresView) {
   
   var MainRouter = Backbone.Router.extend({
     routes: {
       '*actions': 'defaultAction',
-      'messages': 'showMessageAboutMongo', // All urls will trigger this route
+      'scores': 'showMessageAboutMongo', // All urls will trigger this route
       'about': 'showAbout' 
     }
   });
@@ -24,8 +24,8 @@ define([
       var mainView = new MainView();
       mainView.render();
 
-      var cabinView = new CabinView();
-      cabinView.render();
+      var highScoresView = new HighScoresView();
+      highScoresView.render();
 
       console.log("default route");
 		});

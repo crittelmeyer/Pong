@@ -1,0 +1,7 @@
+<% _.each(scores, function(score) { %>
+<!-- This isn't great sanitization and you will want something more secure for outputting untrusted data to the page -->
+<pre class="playerName"><%= score.get('playerName').replace(/</g, '&lt;') %></pre>
+<pre class="score"><%= score.get('score') %></pre>
+<em class="date"><%= score.get('date') %></em>
+
+<% }); %>

@@ -9,9 +9,9 @@ define([
     el: '.highScore-list-container',
     render: function () {
       var that = this;
-     
+
       /* no scores at the start */
-      that.Scores();
+      that.getScores();
     },
 
     getScores: function() {
@@ -20,7 +20,10 @@ define([
       var scores = new ScoresCollection();
       scores.fetch({
         success: function(scores) {
+          console.log(scores);
           $(that.el).html(_.template(highScoreListTemplate, {scores: scores.models, _:_}));
+
+          console.log(that.el);
         },
         error: function(response) {
             console.log(response, "HighScoreList error!");

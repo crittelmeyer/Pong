@@ -5,7 +5,7 @@ var connect = require('connect'),
     config = require('./config');
 
 // localhost
-var httpPort = process.env.PORT || 8000;
+var httpPort = 1337;//process.env.PORT || 8000;
 
 // HTTP - sends html/js/css to the browswer 
 var sendHTML = function(filePath, contentType, response) {
@@ -57,13 +57,13 @@ var getContentType = function(filePath) {
 }
 
 var onHtmlRequestHandler = function(request, response) {
-  console.log('onHtmlRequestHandler... request.url: ' + request.url) ;
+  console.log('onHtmlRequestHandler... request.url: ' + request.url);
 
   /*
    when this is live, nodjitsu only listens on 1 port(80) so the httpServer will hear it first but
    we need to direct the request to the mongodbServer
    */
-  if (process.env.PORT && url === '/messages') {
+  if (process.env.PORT && url === '/scores') {
     
     // pass the request to mongodbServer
     return; 
@@ -72,7 +72,7 @@ var onHtmlRequestHandler = function(request, response) {
   var filePath = getFilePath(request.url);
   var contentType = getContentType(filePath);
 
-  console.log('onHtmlRequestHandler... getting: ' + filePath) ;
+  console.log('onHtmlRequestHandler... getting: ' + filePath);
 
   sendHTML(filePath, contentType, response); 
 }
