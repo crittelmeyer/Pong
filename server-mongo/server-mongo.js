@@ -33,7 +33,7 @@ mongodbServer.use(restify.bodyParser());
 
 // Create a schema for our data
 var ScoreSchema = new Schema({
-  playerName: String,
+  username: String,
   score: Number,
   date: Date
 });
@@ -41,6 +41,17 @@ var ScoreSchema = new Schema({
 // Use the schema to register a model
 mongoose.model('Score', ScoreSchema);
 var Score = mongoose.model('Score');
+
+// Create a schema for our data
+var UserSchema = new Schema({
+  username: String,
+  password: String,
+  date: Date
+});
+
+// Use the schema to register a model
+mongoose.model('User', UserSchema);
+var User = mongoose.model('User');
 
 
 // This function is responsible for returning all entries for the Score model
@@ -65,10 +76,41 @@ var submitScore = function(req, res, next) {
   
   console.log("mongodbServer submitScore: " + req.params.score);
 
-  score.playerName = req.params.playerName;
+  score.username = req.params.username;
   score.score = req.params.score;
   score.date = new Date();
   score.save(function () {
+    res.send(req.body);
+  });
+}
+
+
+// This function is responsible for returning all entries for the User model
+var getUsers = function(req, res, next) {
+  // Resitify currently has a bug which doesn't allow you to set default headers
+  // This headers comply with CORS and allow us to mongodbServer our response to any origin
+  res.header("Access-Control-Allow-Origin", "*"); 
+  res.header("Access-Control-Allow-Headers", "X-Requested-With");
+  
+  console.log("mongodbServer getUsers");
+
+  User.find().limit(20).sort('username', -1).execFind(function (arr, data) {
+    res.send(data);
+  });
+}
+
+var saveUser = function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "X-Requested-With");
+  // Create a new score model, fill it up and save it to Mongodb
+  var user = new User(); 
+  
+  console.log("mongodbServer saveUser: " + req.params.username);
+
+  user.username = req.params.username;
+  user.password = req.params.password;
+  user.creationDate = new Date();
+  user.save(function () {
     res.send(req.body);
   });
 }
@@ -87,3 +129,5 @@ mongodbServer.listen(mongodbPort, function() {
 
 mongodbServer.get('/scores', getScores);
 mongodbServer.post('/scores', submitScore);
+mongodbServer.get('/users', getUsers);
+mongodbServer.post('/user', saveUser);

@@ -18,7 +18,7 @@ define([
     submitScore: function() {
       var that = this;
 
-      console.log("entering from HighScoreForm")
+      console.log("entering from HighScoreForm");
 
       var scoreModel = new ScoreModel();
 

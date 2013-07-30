@@ -3,14 +3,14 @@ define([
   'underscore',
   'backbone',
   'views/MainView', 
-  'views/high_scores/HighScoresView'
-], function ($, _, Backbone, MainView, HighScoresView) {
+  'views/users/UsersView',
+  'views/scores/ScoresView'
+], function ($, _, Backbone, MainView, UsersView, ScoresView) {
   
   var MainRouter = Backbone.Router.extend({
     routes: {
       '*actions': 'defaultAction',
-      'scores': 'showMessageAboutMongo', // All urls will trigger this route
-      'about': 'showAbout' 
+      'scores': 'showScore'
     }
   });
 
@@ -24,18 +24,18 @@ define([
       var mainView = new MainView();
       mainView.render();
 
-      var highScoresView = new HighScoresView();
-      highScoresView.render();
+      var UsersView = new UsersView();
+      UsersView.render();
 
       console.log("default route");
 		});
 
-    router.on('route:showMessageAboutMongo', function () {
-      console.log("display helpful message about setting up mongo");
-    });
+    router.on('route:showScore', function (actions) {
+      var mainView = new MainView();
+      mainView.render();
 
-    router.on('route:showAbout', function () {
-      console.log("display about");        
+      var ScoresView = new ScoresView();
+      ScoresView.render();
     });
 
     Backbone.history.start();

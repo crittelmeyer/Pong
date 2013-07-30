@@ -1,0 +1,30 @@
+ig.module(
+	'game.entities.puck'
+)
+.requires(
+	'impact.entity'
+)
+.defines(function(){
+
+EntityPuck = ig.Entity.extend({
+	
+	size: {x:48, y:48},
+	collides: ig.Entity.COLLIDES.ACTIVE,
+	
+	animSheet: new ig.AnimationSheet( 'img/puck.png', 48, 48 ),
+	
+	bounciness: 1,
+	
+	init: function( x, y, settings ) {
+		this.parent( x, y, settings );
+		
+		this.addAnim( 'idle', 0.1, [0,1,2,3,4,4,4,4,3,2,1] );
+		
+		this.vel.x = -600;
+		this.vel.y = 100;
+		// this.minVel.x = -600;
+		this.maxVel.x = 600;
+	}
+});
+
+});
