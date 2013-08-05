@@ -5,7 +5,7 @@ var mongoose = require('mongoose/'),
 var mongodbPort = process.env.PORT || 8888;
 
 // MONGODB - saves data in the database and posts data to the browser
-var mongoURI = ( process.env.PORT ) ? config.creds.mongoose_auth_mongohq : config.creds.mongoose_auth_local;
+var mongoURI = (process.env.PORT) ? config.creds.mongoose_auth_mongohq : config.creds.mongoose_auth_local;
 
 db = mongoose.connect(mongoURI),
 Schema = mongoose.Schema;  
@@ -46,6 +46,8 @@ var Score = mongoose.model('Score');
 var UserSchema = new Schema({
   username: String,
   password: String,
+  streak: Number,
+  highStreak: Number,
   date: Date
 });
 
@@ -109,6 +111,8 @@ var saveUser = function(req, res, next) {
 
   user.username = req.params.username;
   user.password = req.params.password;
+  user.streak = req.params.streak;
+  user.highStreak = req.params.highStreak;
   user.creationDate = new Date();
   user.save(function () {
     res.send(req.body);
@@ -116,7 +120,6 @@ var saveUser = function(req, res, next) {
 }
 
 mongodbServer.listen(mongodbPort, function() {
-  
   var consoleMessage = '\n MongoDb, Mongoose, Restify, and Backbone Tutorial'
   consoleMessage += '\n +++++++++++++++++++++++++++++++++++++++++++++++++++++' 
   consoleMessage += '\n\n %s your mongodbServer is listening at %s';
@@ -124,10 +127,9 @@ mongodbServer.listen(mongodbPort, function() {
   consoleMessage += '+++++++++++++++++++++++++++++++++++++++++++++++++++++ \n\n'  
  
   console.log(consoleMessage, mongodbServer.name, mongodbServer.url);
-
 });
 
 mongodbServer.get('/scores', getScores);
 mongodbServer.post('/scores', submitScore);
 mongodbServer.get('/users', getUsers);
-mongodbServer.post('/user', saveUser);
+mongodbServer.post('/users', saveUser);

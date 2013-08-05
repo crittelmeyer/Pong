@@ -14,6 +14,13 @@ define([
     events: {
       'click .save-user': 'saveUser'
     },
+
+    clear: function() {
+      $('.username').attr('value', "");
+      $('.password').attr('value', "");
+      $('.streak').attr('value', "");
+      $('.highStreak').attr('value', "");
+    },
     
     saveUser: function() {
       var that = this;

@@ -1,0 +1,8 @@
+{[ _.each(users, function(user) { ]}
+<!-- This isn't great sanitization and you will want something more secure for outputting untrusted data to the page -->
+<pre class="username">{{ user.get('username').replace(/</g, '&lt;') }}</pre>
+<pre class="password">{{ user.get('password') }}</pre>
+<pre class="streak">{{ user.get('streak').toString().replace(/</g, '&lt;') }}</pre>
+<pre class="highStreak">{{ user.get('highStreak').toString().replace(/</g, '&lt;') }}</pre>
+<em class="creationDate">{{ user.get('creationDate') }}</em>
+{[ }); ]}

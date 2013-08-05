@@ -2,9 +2,9 @@ define([
   'jquery',
   'underscore',
   'backbone',
-  'collections/ScoresCollection',
+  'collections/UsersCollection',
   'text!templates/users/userListTemplate.html'
-], function($, _, Backbone, ScoresCollection, userListTemplate){
+], function($, _, Backbone, UsersCollection, userListTemplate){
   var UserListView = Backbone.View.extend({
     el: '.user-list-container',
     render: function () {
@@ -20,10 +20,7 @@ define([
       var users = new UsersCollection();
       users.fetch({
         success: function(users) {
-          console.log(users);
           $(that.el).html(_.template(userListTemplate, {users: users.models, _:_}));
-
-          console.log(that.el);
         },
         error: function(response) {
           console.log(response, "UserList error!");

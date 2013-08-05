@@ -20,13 +20,12 @@ define([
       var userListView = new UserListView();
       userListView.render();
       
-      userFormView.on('submitScore', function () {
+      userFormView.on('saveUser', function () {
+        userFormView.clear();
         userListView.render();
       });
-      
     }
   });
 
   return UsersView;
-  
 });
