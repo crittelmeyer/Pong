@@ -11,8 +11,9 @@ var httpPort = 1337;//process.env.PORT || 8000;
 var sendHTML = function(filePath, contentType, response) {
   console.log('sendHTML: ' + filePath) ;
 
-  path.exists(filePath, function(exists) {
+  fs.exists(filePath, function(exists) {
     if (exists) {
+
       fs.readFile(filePath, function(error, content) {
         if (error) {
           response.writeHead(500);
@@ -33,8 +34,15 @@ var sendHTML = function(filePath, contentType, response) {
 var getFilePath = function(url) {
   console.log("url: " + url);
 
-  var filePath = './app' + url;
-  if (url == '/' ) filePath = './app/index.html';
+  //default path prefix is used on windows machines
+  //on macs, path prefix is passed in as a command line arg
+  var pathPrefix = "./";
+  if (process.argv.length > 2) {
+    pathPrefix = process.argv[process.argv.length-1];
+  }
+
+  var filePath = pathPrefix + "app" + url;
+  if (url == '/' ) filePath = pathPrefix + "app/index.html";
   console.log("filePath: " + filePath);
 
   return filePath;
@@ -77,4 +85,4 @@ var onHtmlRequestHandler = function(request, response) {
   sendHTML(filePath, contentType, response); 
 }
 
-httpServer.createServer(onHtmlRequestHandler).listen(httpPort);
+var server = httpServer.createServer(onHtmlRequestHandler).listen(httpPort);
